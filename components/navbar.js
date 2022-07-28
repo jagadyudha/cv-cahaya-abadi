@@ -4,15 +4,15 @@ import { HiMenuAlt1 } from "react-icons/hi";
 
 const navbar = [
   { name: "Beranda", href: "/" },
-  { name: "Peti Mati", href: "/theme" },
-  { name: "Tentang Kami", href: "/reseller" },
-  { name: "Kontak Kami", href: "/reseller" },
+  { name: "Peti Mati", href: "/produk" },
+  { name: "Tentang Kami", href: "/tentangkami" },
+  { name: "Kontak Kami", href: "/kontakkami" },
 ];
 
 const Navbar = () => {
   return (
     <>
-      <nav className="z-10 bg-white mx-auto border-b md:py-3 py-1 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
+      <nav className="z-20 bg-white mx-auto border-b md:py-2 py-0.5 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
         <div className="navbar max-w-7xl mx-auto flex justify-between">
           <a className="btn btn-ghost normal-case text-xl">
             <img
