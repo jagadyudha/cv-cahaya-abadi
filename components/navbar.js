@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="z-20 bg-white mx-auto border-b md:py-2 py-0.5 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
-        <div className="navbar max-w-7xl mx-auto flex justify-between">
+        <div className="navbar max-w-6xl mx-auto flex justify-between">
           <a className="btn btn-ghost normal-case text-xl">
             <img
               src="/assets/images/logo.png"

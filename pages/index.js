@@ -56,7 +56,7 @@ export default function Home({ data, error }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {layanan.map((item, index) => (
             <div
-              key={index}
+              key={item.name}
               className="border border-opacity-20 border-black p-10 py-16 rounded-md flex flex-col items-center text-center"
             >
               <div className="bg-primary bg-opacity-20 text-primary text-4xl rounded-full p-4">
@@ -85,7 +85,7 @@ export default function Home({ data, error }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.map((item) => (
             <div
-              key={item.peti_id}
+              key={item.id_peti}
               className="border border-opacity-20 border-black  rounded-md flex flex-col items-center"
             >
               <div className="relative w-full h-64">
@@ -101,7 +101,7 @@ export default function Home({ data, error }) {
                 <span className="block font-bold text-primary text-xl">
                   Rp. {item.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                 </span>
-                <p>{item.deskripsi.split(".")[0]}</p>
+                <p>{item.deskripsi.split(".")[0]}.</p>
               </div>
             </div>
           ))}
