@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="footer items-center md:px-10 p-4 bg-white text-neutral max-w-7xl container mx-auto border-t py-10">
+    <footer className="footer items-center md:px-10 p-4 bg-white text-neutral max-w-6xl container mx-auto border-t py-10">
       <div className="items-center grid-flow-col">
         <p>Copyright © 2022 - CV Cahaya Abadi</p>
       </div>

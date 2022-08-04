@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { supabase } from "@/lib/database";
 import {
   GiAmbulance,
   GiMilitaryAmbulance,
@@ -8,7 +9,14 @@ import {
   GiCoffin,
 } from "react-icons/gi";
 
-export default function Home() {
+export async function getServerSideProps() {
+  const { data, error } = await supabase.from("peti").select();
+  return {
+    props: { data, error }, // will be passed to the page component as props
+  };
+}
+
+export default function Home({ data, error }) {
   return (
     <main>
       {/* Bagian Hero (awal halaman) */}
@@ -40,7 +48,7 @@ export default function Home() {
       </div>
 
       {/* Bagian Layanan Kami */}
-      <section className="max-w-7xl px-4 md:px-10 mx-auto">
+      <section className="max-w-6xl px-4 md:px-10 mx-auto">
         <div className="text-center max-w-md mx-auto mb-8">
           <h2 className="font-bold text-3xl">Layanan Kami</h2>
           <p>Pilih paket layanan yang anda butuhkan</p>
@@ -69,15 +77,15 @@ export default function Home() {
       </div>
 
       {/* Bagian Peti Paling Laris */}
-      <section className="max-w-7xl mx-auto px-4 md:px-10 mb-20">
+      <section className="max-w-6xl mx-auto px-4 md:px-10 mb-20">
         <div className="text-center max-w-md mx-auto mb-8">
           <h2 className="font-bold text-3xl">Peti Terlaris</h2>
           <p>Rekomendasi peti paling banyak dipesan</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {peti.map((item) => (
+          {data.map((item) => (
             <div
-              key={item.id}
+              key={item.peti_id}
               className="border border-opacity-20 border-black  rounded-md flex flex-col items-center"
             >
               <div className="relative w-full h-64">
@@ -91,9 +99,9 @@ export default function Home() {
               <div className="mx-5 space-y-2 mb-5">
                 <h3 className="font-bold text-xl mt-5">{item.nama}</h3>
                 <span className="block font-bold text-primary text-xl">
-                  Rp.{item.harga}
+                  Rp. {item.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                 </span>
-                <p>{item.deskripsi}</p>
+                <p>{item.deskripsi.split(".")[0]}</p>
               </div>
             </div>
           ))}
