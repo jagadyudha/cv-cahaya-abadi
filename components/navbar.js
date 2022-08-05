@@ -1,6 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import { HiMenuAlt1 } from "react-icons/hi";
+import { IoCloseOutline } from "react-icons/io5";
+import TextInput from "@/components/textInput";
+import toast from "react-hot-toast";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { supabase } from "@/lib/database";
 
 const navbar = [
   { name: "Beranda", href: "/" },
@@ -10,6 +15,38 @@ const navbar = [
 ];
 
 const Navbar = () => {
+  // informasi modal apakah muncul
+  const [modal, setModal] = React.useState(false);
+
+  // react hooks form
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const { error } = await supabase.auth.signIn({
+        email: data.email,
+        password: data.password,
+      });
+      if (error) {
+        throw error;
+      } else {
+        toast.success("Berhasil Masuk!");
+      }
+    } catch (error) {
+      toast.error(error.error_description || error.message);
+    }
+  };
+
+  // handle perubahan modal ketika di klik
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
   return (
     <>
       <nav className="z-20 bg-white mx-auto border-b md:py-2 py-0.5 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
@@ -33,7 +70,7 @@ const Navbar = () => {
                 </li>
               ))}
               <button
-                //   onClick={loginToggle}
+                onClick={handleModal}
                 className="btn btn-ghost mr-2 ml-10 mt-0.5 capitalize text-lg font-normal"
               >
                 Masuk
@@ -71,7 +108,7 @@ const Navbar = () => {
                 ))}
 
                 <button
-                  // onClick={loginToggle}
+                  onClick={handleModal}
                   className="btn btn-primary text-white mt-5"
                 >
                   Masuk
@@ -81,6 +118,78 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/* Popup Login */}
+      <div
+        className={`modal modal-bottom sm:modal-middle ${
+          modal ? "modal-open" : ""
+        }`}
+      >
+        <div className="modal-box">
+          <div className="flex justify-end">
+            <button onClick={handleModal} className="btn btn-ghost text-xl">
+              <IoCloseOutline />
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="my-4">
+              <Controller
+                control={control}
+                name="email"
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur } }) => (
+                  <TextInput
+                    title="Alamat Email"
+                    placeholder="emailmu@gmail.com"
+                    type="email"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
+              />
+              {errors.email && (
+                <p className=" text-error">Harap masukkan kata sandi.</p>
+              )}
+            </div>
+
+            {/* include validation with required or other standard HTML validation rules */}
+            <div className="my-4">
+              <Controller
+                control={control}
+                name="password"
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur } }) => (
+                  <TextInput
+                    title="Kata Sandi"
+                    placeholder="********"
+                    type="password"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
+              />
+              {errors.email && (
+                <p className="text-error">Harap masukkan kata sandi.</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary text-white mt-10 w-full"
+            >
+              Masuk
+            </button>
+          </form>
+
+          <div className="my-2">
+            Belum memiliki akun?{" "}
+            <Link href={"/register"}>
+              <button className="text-primary">Daftar</button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
