@@ -57,7 +57,7 @@ export default function Home({ data, error }) {
           {layanan.map((item, index) => (
             <div
               key={item.name}
-              className="border border-opacity-20 border-black p-10 py-16 rounded-md flex flex-col items-center text-center"
+              className="border  border-gray-200 p-10 py-16 rounded-md flex flex-col items-center text-center"
             >
               <div className="bg-primary bg-opacity-20 text-primary text-4xl rounded-full p-4">
                 {item.icon}

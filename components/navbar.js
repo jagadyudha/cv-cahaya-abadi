@@ -4,8 +4,9 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import TextInput from "@/components/textInput";
 import toast from "react-hot-toast";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { supabase } from "@/lib/database";
+import { useAuth } from "@/context/auth";
 
 const navbar = [
   { name: "Beranda", href: "/" },
@@ -15,18 +16,19 @@ const navbar = [
 ];
 
 const Navbar = () => {
+  // mengambil data user dari context
+  const { user, signOut, loading } = useAuth();
+
   // informasi modal apakah muncul
   const [modal, setModal] = React.useState(false);
 
   // react hooks form
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const { error } = await supabase.auth.signIn({
         email: data.email,
@@ -36,6 +38,7 @@ const Navbar = () => {
         throw error;
       } else {
         toast.success("Berhasil Masuk!");
+        setModal(false);
       }
     } catch (error) {
       toast.error(error.error_description || error.message);
@@ -50,8 +53,8 @@ const Navbar = () => {
   return (
     <>
       <nav className="z-20 bg-white mx-auto border-b md:py-2 py-0.5 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
-        <div className="navbar max-w-6xl mx-auto flex justify-between">
-          <a className="btn btn-ghost normal-case text-xl">
+        <div className="navbar px-5 md:px-10 mx-auto flex justify-between items-center">
+          <a className="text-xl">
             <img
               src="/assets/images/logo.png"
               className="w-44 sm:w-48 navbar-start mx-2"
@@ -61,37 +64,48 @@ const Navbar = () => {
           {/* Desktop */}
           <div className="hidden lg:flex items-center navbar-end w-full">
             {/* Desktop Menu */}
-            <ul className="menu menu-horizontal p-0">
+            <ul className="menu menu-horizontal p-0 flex">
               {navbar.map((item, index) => (
                 <li key={index}>
                   <Link href={item.href}>
-                    <a className="text-lg">{item.name}</a>
+                    <a className=" text-base">{item.name}</a>
                   </Link>
                 </li>
               ))}
-              <button
-                onClick={handleModal}
-                className="btn btn-ghost mr-2 ml-10 mt-0.5 capitalize text-lg font-normal"
-              >
-                Masuk
-              </button>
+
+              {!loading && user && (
+                <button
+                  onClick={signOut}
+                  className="ml-4 btn btn-primary text-white"
+                >
+                  Logout
+                </button>
+              )}
+
+              {!loading && !user && (
+                <div className="space-x-2 flex">
+                  <button
+                    onClick={handleModal}
+                    className="btn btn-primary text-white"
+                  >
+                    Masuk
+                  </button>
+                  <Link href={"/register"}>
+                    <button className="btn btn-primary btn-outline text-white">
+                      Daftar
+                    </button>
+                  </Link>
+                </div>
+              )}
             </ul>
           </div>
 
           {/* Right Side */}
           <div>
-            {/* Register Button */}
-            <button
-              //   onClick={registerToggle}
-              className="btn btn-primary text-white"
-            >
-              Daftar
-            </button>
-
             {/* Mobile */}
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost lg:hidden">
-                <HiMenuAlt1 />
+            <div className="dropdown dropdown-end lg:hidden">
+              <label tabIndex={0}>
+                <HiMenuAlt1 className="duration-300 active:scale-125 text-xl" />
               </label>
 
               {/* Mobile Menu */}
@@ -107,12 +121,21 @@ const Navbar = () => {
                   </li>
                 ))}
 
-                <button
-                  onClick={handleModal}
-                  className="btn btn-primary text-white mt-5"
-                >
-                  Masuk
-                </button>
+                {!loading && !user && (
+                  <div className="space-y-2 flex flex-col">
+                    <button
+                      onClick={handleModal}
+                      className="btn btn-primary text-white mt-5"
+                    >
+                      Masuk
+                    </button>
+                    <Link href={"/register"}>
+                      <button className="btn btn-primary btn-outline text-white mt-5">
+                        Daftar
+                      </button>
+                    </Link>
+                  </div>
+                )}
               </ul>
             </div>
           </div>
