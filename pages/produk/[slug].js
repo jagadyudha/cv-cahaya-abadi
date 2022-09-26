@@ -1,12 +1,14 @@
 import React from "react";
 import { supabase } from "@/lib/database";
 import Image from "next/image";
+import { useAuth } from "@/context/auth";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context) {
   const { data, error } = await supabase
     .from("peti")
     .select()
-    .match({ id_peti: context.params.slug })
+    .match({ slug: context.params.slug })
     .single();
   return {
     props: { data, error }, // will be passed to the page component as props
@@ -14,6 +16,15 @@ export async function getServerSideProps(context) {
 }
 
 const ProdukDetail = ({ data }) => {
+  const router = useRouter();
+  const { setPesanan, pesanan } = useAuth();
+
+  // tombol pesan diklik
+  const pesanHandle = () => {
+    setPesanan(data);
+    router.push("/pesanan");
+  };
+
   return (
     <main className="max-w-6xl mx-auto my-16 lg:my-24 px-4 md:px-10 mb-20">
       <div className="lg:flex flex-none gap-x-10">
@@ -27,7 +38,7 @@ const ProdukDetail = ({ data }) => {
         </div>
 
         <div className="space-y-2 mb-5">
-          <h1 className="font-bold mt-5 lg:mt-0 text-2xl lg:text-4xl">
+          <h1 className="font-bold mt-5 lg:mt-0 text-xl lg:text-2xl">
             {data.nama}
           </h1>
           <span className="block font-bold text-primary text-xl">
@@ -36,7 +47,7 @@ const ProdukDetail = ({ data }) => {
           <p className=" whitespace-pre-line">{data.deskripsi}</p>
           <div className="lg:space-x-2 space-y-2 lg:space-y-0 py-5 lg:flex">
             <button
-              //   onClick={registerToggle}
+              onClick={pesanHandle}
               className="btn btn-lg w-full lg:w-1/2 btn-primary text-white"
             >
               Pesan Peti

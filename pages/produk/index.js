@@ -14,19 +14,19 @@ const Produk = ({ data, error }) => {
   return (
     <main className="max-w-6xl mx-auto my-16 lg:my-24 px-4 md:px-10 mb-20">
       <div className="text-center max-w-md mx-auto my-8 lg:my-12">
-        <h2 className="font-bold text-3xl lg:text-5xl">Peti Mati</h2>
+        <h2 className="font-bold text-3xl lg:text-5xl my-2">Peti Mati</h2>
         <p>Macam-macam peti Mati yang kami sediakan</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {data.map((item) => (
-          <Link key={item.id_peti} href={`/produk/${item.id_peti}`}>
+          <Link key={item.id_peti} href={`/produk/${item.slug}`}>
             <a
               key={item.id_peti}
-              className="border border-opacity-20 border-black  rounded-md flex flex-col items-center"
+              className="border group border-opacity-20 border-black  rounded-md flex flex-col items-center"
             >
               <div className="relative w-full h-64">
                 <Image
-                  className="rounded-t-md"
+                  className="rounded-t-md group-hover:scale-125 duration-500"
                   src={item.image}
                   layout={"fill"}
                   objectFit={"cover"}

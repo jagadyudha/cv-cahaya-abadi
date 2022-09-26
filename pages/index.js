@@ -111,36 +111,6 @@ export default function Home({ data, error }) {
   );
 }
 
-const peti = [
-  {
-    id_peti: 1,
-    nama: "Peti Ukir",
-    harga: 100000,
-    image:
-      "https://user-images.githubusercontent.com/41937681/181463738-bb85a2fd-01c1-4130-b6d8-e696feb697ab.png",
-    deskripsi: "Terbuat dari material kayu jati yang di ukir dengan apik.",
-    dibuat: "2022-08-02",
-  },
-  {
-    id_peti: 2,
-    nama: "Peti Ukir",
-    harga: 100000,
-    image:
-      "https://user-images.githubusercontent.com/41937681/181463738-bb85a2fd-01c1-4130-b6d8-e696feb697ab.png",
-    deskripsi: "Terbuat dari material kayu jati yang di ukir dengan apik.",
-    dibuat: "2022-08-02",
-  },
-  {
-    id_peti: 3,
-    nama: "Peti Ukir",
-    harga: 100000,
-    image:
-      "https://user-images.githubusercontent.com/41937681/181463738-bb85a2fd-01c1-4130-b6d8-e696feb697ab.png",
-    deskripsi: "Terbuat dari material kayu jati yang di ukir dengan apik.",
-    dibuat: "2022-08-02",
-  },
-];
-
 const layanan = [
   {
     name: "Ambulance Dalam Kota",

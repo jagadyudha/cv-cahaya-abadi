@@ -54,12 +54,14 @@ const Navbar = () => {
     <>
       <nav className="z-20 bg-white mx-auto border-b md:py-2 py-0.5 sticky top-0 backdrop-filter backdrop-blur-sm bg-opacity-90">
         <div className="navbar px-5 md:px-10 mx-auto flex justify-between items-center">
-          <a className="text-xl">
-            <img
-              src="/assets/images/logo.png"
-              className="w-44 sm:w-48 navbar-start mx-2"
-            />
-          </a>
+          <Link href={"/"}>
+            <a className="text-xl">
+              <img
+                src="/assets/images/logo.png"
+                className="w-44 sm:w-48 navbar-start mx-2"
+              />
+            </a>
+          </Link>
 
           {/* Desktop */}
           <div className="hidden lg:flex items-center navbar-end w-full">
@@ -120,6 +122,15 @@ const Navbar = () => {
                     </Link>
                   </li>
                 ))}
+
+                {!loading && user && (
+                  <button
+                    onClick={signOut}
+                    className="mt-4 btn btn-primary text-white"
+                  >
+                    Logout
+                  </button>
+                )}
 
                 {!loading && !user && (
                   <div className="space-y-2 flex flex-col">

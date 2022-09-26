@@ -9,6 +9,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm();
@@ -16,15 +17,19 @@ const Register = () => {
   // tombol submit ditekan
   const onSubmit = async (data) => {
     try {
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        data: {
-          first_name: data.first_name,
-          last_name: data.first_name,
-          phone: data.phone,
+      const { error } = await supabase.auth.signUp(
+        {
+          email: data.email,
+          password: data.password,
         },
-      });
+        {
+          data: {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            phone: data.phone,
+          },
+        }
+      );
       if (error) {
         throw error;
       } else {

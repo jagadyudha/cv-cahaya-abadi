@@ -8,6 +8,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   // create state values for user data and loading
   const [user, setUser] = useState(null);
+  const [pesanan, setPesanan] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +31,8 @@ export const AuthProvider = ({ children }) => {
 
   // create signUp, signIn, signOut functions
   const value = {
+    pesanan,
+    setPesanan,
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signIn(data),
     signOut: () => {
