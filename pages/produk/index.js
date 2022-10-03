@@ -1,6 +1,6 @@
 import React from "react";
 import { supabase } from "@/lib/database";
-import Image from "next/image";
+import Image from "@/components/image";
 import Link from "next/link";
 
 export async function getServerSideProps() {
@@ -24,9 +24,9 @@ const Produk = ({ data, error }) => {
               key={item.id_peti}
               className="border group border-opacity-20 border-black  rounded-md flex flex-col items-center"
             >
-              <div className="relative w-full h-64">
+              <div className="relative w-full h-64 ">
                 <Image
-                  className="rounded-t-md group-hover:scale-125 duration-500"
+                  className="rounded-t-md"
                   src={item.image}
                   layout={"fill"}
                   objectFit={"cover"}

@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <AuthProvider>
-        <Private protectedRoutes={["/pembayaran/[slug]"]}>
+        <Private protectedRoutes={["/pesan/[slug]"]}>
           {!isSsr && <Toaster />}
           <div key={router.pathname}>
             <Navbar />

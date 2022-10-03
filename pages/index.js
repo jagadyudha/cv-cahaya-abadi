@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/image";
 import { supabase } from "@/lib/database";
 import {
   GiAmbulance,
@@ -23,6 +23,7 @@ export default function Home({ data, error }) {
       <section>
         <div className="absolute w-full h-[92vh]">
           <Image
+            className={"rounded-none"}
             src={"/assets/images/hero.png"}
             layout={"fill"}
             objectFit="cover"

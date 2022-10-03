@@ -4,17 +4,48 @@ import Image from "next/image";
 import TextInput from "@/components/textInput";
 import { useForm, Controller } from "react-hook-form";
 import TextArea from "@/components/textArea";
+import { supabase } from "@/lib/database";
+import Dropzone from "@/components/dropzone";
 
-const Pesanan = () => {
-  // data pesanan dan user
-  const { pesanan, user } = useAuth();
+export async function getServerSideProps(context) {
+  const { data, error } = await supabase
+    .from("peti")
+    .select()
+    .match({ slug: context.params.slug })
+    .single();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: { data, error }, // will be passed to the page component as props
+  };
+}
+
+const Pesan = ({ data }) => {
+  // data user
+  const { user } = useAuth();
 
   // react hooks form
   const {
     handleSubmit,
     control,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm();
+
+  // auto complete form dengan data user
+  React.useEffect(() => {
+    if (user) {
+      setValue("email", user.email);
+      setValue("phone", user.user_metadata.phone);
+      setValue("first_name", user.user_metadata.first_name);
+      setValue("last_name", user.user_metadata.last_name);
+    }
+  }, [user]);
 
   // tombol pesanan saat ditekan
   const onSubmit = async (data) => {
@@ -34,14 +65,36 @@ const Pesanan = () => {
     }
   };
 
-  if (!pesanan) {
-    return <div>Kosong</div>;
-  }
-
-  console.log(user);
   return (
-    <main className="max-w-6xl mx-auto my-16 lg:my-24 px-4 md:px-10 mb-20 flex gap-x-10">
+    <main className="max-w-3xl mx-auto my-16 lg:my-24 px-4 md:px-10 mb-20">
+      <div className="text-center max-w-md mx-auto my-8 lg:my-12 lg:mb-16">
+        <h2 className="font-bold text-3xl lg:text-5xl my-2">Detail Pesanan</h2>
+      </div>
+
       <div className="w-full">
+        <div className="my-4">
+          <span className="block label-text text-gray-500 my-2">Jenis</span>
+          <div
+            key={data.id_peti}
+            className="border border-gray-200 p-4 flex items-center rounded-md "
+          >
+            <div className="relative h-20 w-20 bg-gray-200 rounded-md">
+              <Image
+                className="rounded-md"
+                src={data.image}
+                layout={"fill"}
+                objectFit={"cover"}
+              />
+            </div>
+            <div className="mx-5 space-y-2">
+              <h3 className="font-bold text-xl ">{data.nama}</h3>
+              <span className="block font-bold text-primary text-xl">
+                Rp. {data.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="my-4">
           <Controller
             control={control}
@@ -52,15 +105,13 @@ const Pesanan = () => {
                 title="Alamat Email"
                 placeholder="emailmu@gmail.com"
                 type="email"
-                value={user.email}
+                value={watch()?.email}
                 onChange={onChange}
                 onBlur={onBlur}
               />
             )}
           />
-          {errors.email && (
-            <p className=" text-error">Harap masukkan kata sandi.</p>
-          )}
+          {errors.email && <p className=" text-error">Harap masukkan email.</p>}
         </div>
 
         <div className="my-4">
@@ -73,14 +124,14 @@ const Pesanan = () => {
                 title="Nomor Telepon"
                 placeholder="+6285727337"
                 type="tel"
-                value={user.user_metadata.phone}
+                value={watch()?.phone}
                 onChange={onChange}
                 onBlur={onBlur}
               />
             )}
           />
-          {errors.email && (
-            <p className=" text-error">Harap masukkan kata sandi.</p>
+          {errors.phone && (
+            <p className=" text-error">Harap masukkan nomor telepon.</p>
           )}
         </div>
 
@@ -96,7 +147,7 @@ const Pesanan = () => {
                   placeholder="Muhammad"
                   type="text"
                   onChange={onChange}
-                  value={user.user_metadata.first_name}
+                  value={watch()?.first_name}
                   onBlur={onBlur}
                 />
               )}
@@ -115,7 +166,7 @@ const Pesanan = () => {
                   title="Nama Belakang"
                   placeholder="Irfan"
                   type="text"
-                  value={user.user_metadata.last_name}
+                  value={watch().last_name}
                   onChange={onChange}
                   onBlur={onBlur}
                 />
@@ -130,7 +181,7 @@ const Pesanan = () => {
         <div className="my-4">
           <Controller
             control={control}
-            name="email"
+            name="adress"
             rules={{ required: true }}
             render={({ field: { onChange, onBlur } }) => (
               <TextArea
@@ -141,34 +192,27 @@ const Pesanan = () => {
               />
             )}
           />
-          {errors.email && (
+          {errors.adress && (
             <p className=" text-error">Harap masukkan kata sandi.</p>
           )}
         </div>
-      </div>
 
-      <div
-        key={pesanan.id_peti}
-        className="border group border-gray-200 max-w-sm w-full rounded-md flex flex-col items-center"
-      >
-        <div className="relative w-full h-64">
-          <Image
-            className="rounded-t-md group-hover:scale-125 duration-500"
-            src={pesanan.image}
-            layout={"fill"}
-            objectFit={"cover"}
-          />
-        </div>
-        <div className="mx-5 space-y-2 mb-5">
-          <h3 className="font-bold text-xl mt-5">{pesanan.nama}</h3>
-          <span className="block font-bold text-primary text-xl">
-            Rp. {pesanan.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+        <div className="my-4">
+          <span className="bg-green-200 text-green-800 p-1 rounded-md block px-2 text-sm">
+            Silahkan transfer{" "}
+            <b>Rp. {data.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</b>, ke
+            nomor rekening BCA <b>345345897</b> atas nama Budi. Jika sudah
+            transfer, silahkan upload bukti transfer dibawah ini.
           </span>
-          <p>{pesanan.deskripsi.split(".")[0]}.</p>
+          <Dropzone />
         </div>
+
+        <button className="btn w-full btn-primary text-white my-6">
+          Pesan Sekarang
+        </button>
       </div>
     </main>
   );
 };
 
-export default Pesanan;
+export default Pesan;

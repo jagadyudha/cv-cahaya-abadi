@@ -11,8 +11,8 @@ import { useAuth } from "@/context/auth";
 const navbar = [
   { name: "Beranda", href: "/" },
   { name: "Peti Mati", href: "/produk" },
-  { name: "Tentang Kami", href: "/tentangkami" },
-  { name: "Kontak Kami", href: "/kontakkami" },
+  { name: "Tentang Kami", href: "/tentang" },
+  { name: "Kontak Kami", href: "/kontak" },
 ];
 
 const Navbar = () => {
@@ -77,15 +77,15 @@ const Navbar = () => {
 
               {!loading && user && (
                 <button
-                  onClick={signOut}
+                  // onClick={signOut}
                   className="ml-4 btn btn-primary text-white"
                 >
-                  Logout
+                  Status Pesanan
                 </button>
               )}
 
               {!loading && !user && (
-                <div className="space-x-2 flex">
+                <div className="space-x-2 flex ml-5">
                   <button
                     onClick={handleModal}
                     className="btn btn-primary text-white"
@@ -125,10 +125,10 @@ const Navbar = () => {
 
                 {!loading && user && (
                   <button
-                    onClick={signOut}
+                    // onClick={signOut}
                     className="mt-4 btn btn-primary text-white"
                   >
-                    Logout
+                    Status Pesanan
                   </button>
                 )}
 
