@@ -28,6 +28,9 @@ const Pesan = ({ data }) => {
   // data user
   const { user } = useAuth();
 
+  // loading upload image
+  const [loading, setLoading] = React.useState(false);
+
   // react hooks form
   const {
     handleSubmit,
@@ -36,6 +39,38 @@ const Pesan = ({ data }) => {
     watch,
     setValue,
   } = useForm();
+
+  // upload to cloudinary
+  const onUpload = React.useCallback((acceptedFiles) => {
+    const files = acceptedFiles.map((file) =>
+      Object.assign(file, { preview: URL.createObjectURL(file) })
+    );
+    // loading
+    setLoading(true);
+
+    // upload image
+    const upload = files.map(async (item, index) => {
+      const formData = new FormData();
+      formData.append("file", item);
+      formData.append("upload_preset", "bukti_transfer");
+      const req = await fetch(
+        "https://api.cloudinary.com/v1_1/dxfdywofj/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const res = await req.json();
+      if (res.secure_url) {
+        setValue("bukti_transfer", res.secure_url);
+        return () => URL.revokeObjectURL(item.preview);
+      }
+    });
+
+    // upload settle
+    Promise.all(upload).finally(() => setLoading(false));
+  }, []);
 
   // auto complete form dengan data user
   React.useEffect(() => {
@@ -181,7 +216,7 @@ const Pesan = ({ data }) => {
         <div className="my-4">
           <Controller
             control={control}
-            name="adress"
+            name="address"
             rules={{ required: true }}
             render={({ field: { onChange, onBlur } }) => (
               <TextArea
@@ -192,8 +227,8 @@ const Pesan = ({ data }) => {
               />
             )}
           />
-          {errors.adress && (
-            <p className=" text-error">Harap masukkan kata sandi.</p>
+          {errors.address && (
+            <p className=" text-error">Harap masukkan alamat.</p>
           )}
         </div>
 
@@ -204,10 +239,18 @@ const Pesan = ({ data }) => {
             nomor rekening BCA <b>345345897</b> atas nama Budi. Jika sudah
             transfer, silahkan upload bukti transfer dibawah ini.
           </span>
-          <Dropzone />
+          <Dropzone
+            loading={loading}
+            closeOnClick={() => setValue("bukti_transfer", null)}
+            onDrop={onUpload}
+            image={watch().bukti_transfer}
+          />
         </div>
 
-        <button className="btn w-full btn-primary text-white my-6">
+        <button
+          type="submit"
+          className="btn w-full btn-primary text-white my-6"
+        >
           Pesan Sekarang
         </button>
       </div>

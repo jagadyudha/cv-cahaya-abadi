@@ -1,7 +1,14 @@
 import React from "react";
 
 const Loading = () => {
-  return <div className="lds-ellipsis"></div>;
+  return (
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
 };
 
 export default Loading;
