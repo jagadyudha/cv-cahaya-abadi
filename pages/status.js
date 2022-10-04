@@ -36,25 +36,33 @@ const Status = () => {
 
       <div className="space-y-5">
         {data.map((item) => (
-          <div className="flex items-center border border-gray-200 p-3 rounded-lg">
-            <div className="relative h-32 w-32 bg-gray-200 rounded-md">
-              <Image
-                className="rounded-md"
-                src={item.id_peti.image}
-                layout={"fill"}
-                objectFit={"cover"}
-              />
+          <div className="flex flex-col md:flex-row md:items-center justify-between border border-gray-200 p-3 rounded-lg">
+            <div className="flex items-center">
+              <div className="relative h-32 w-32 bg-gray-200 rounded-md">
+                <Image
+                  className="rounded-md"
+                  src={item.id_peti.image}
+                  layout={"fill"}
+                  objectFit={"cover"}
+                />
+              </div>
+              <div className="mx-5 space-y-5">
+                <div>
+                  <h3 className="font-bold text-xl">{item.id_peti.nama}</h3>
+                  <span className="block font-bold text-primary text-lg">
+                    Rp.{" "}
+                    {item.id_peti.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  </span>
+                </div>
+                <div className="bg-gray-300 p-1 px-2 rounded-lg text-xs inline-block">
+                  {item.status === "menunggu" && "Sedang diproses"}
+                </div>
+              </div>
             </div>
-            <div className="mx-5 space-y-5">
-              <div>
-                <h3 className="font-bold text-xl">{item.id_peti.nama}</h3>
-                <span className="block font-bold text-primary text-lg">
-                  Rp. {item.id_peti.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                </span>
-              </div>
-              <div className="bg-gray-300 p-1 px-2 rounded-lg text-xs inline-block">
-                {item.status === "menunggu" && "Sedang diproses"}
-              </div>
+
+            <div className="text-left md:text-right mt-2 hidden md:block">
+              <span className="block">Tanggal Pemesanan</span>
+              <span className="block">{item.tgl.split("T")[0]}</span>
             </div>
           </div>
         ))}
