@@ -28,7 +28,7 @@ const Dropzone = ({ image, closeOnClick, onDrop, title, loading }) => {
         </span>
       )}
 
-      <div>
+      <div className="my-2">
         {image ? (
           <div className="border-2 px-5 py-5 relative border-dashed rounded-lg">
             <label

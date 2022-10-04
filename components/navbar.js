@@ -76,12 +76,11 @@ const Navbar = () => {
               ))}
 
               {!loading && user && (
-                <button
-                  // onClick={signOut}
-                  className="ml-4 btn btn-primary text-white"
-                >
-                  Status Pesanan
-                </button>
+                <Link href={"/status"}>
+                  <button className="ml-4 btn btn-primary text-white">
+                    Status Pesanan
+                  </button>
+                </Link>
               )}
 
               {!loading && !user && (
@@ -124,12 +123,11 @@ const Navbar = () => {
                 ))}
 
                 {!loading && user && (
-                  <button
-                    // onClick={signOut}
-                    className="mt-4 btn btn-primary text-white"
-                  >
-                    Status Pesanan
-                  </button>
+                  <Link href={"/status"}>
+                    <button className="mt-4 btn btn-primary text-white">
+                      Status Pesanan
+                    </button>
+                  </Link>
                 )}
 
                 {!loading && !user && (

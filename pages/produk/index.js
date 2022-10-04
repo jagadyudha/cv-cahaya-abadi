@@ -2,15 +2,27 @@ import React from "react";
 import { supabase } from "@/lib/database";
 import Image from "@/components/image";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "@/components/loading";
 
-export async function getServerSideProps() {
-  const { data, error } = await supabase.from("peti").select();
-  return {
-    props: { data, error }, // will be passed to the page component as props
-  };
-}
+const Produk = () => {
+  // mengambil data dari database
+  const { isLoading, isError, data } = useQuery(["produk"], async () => {
+    const { data, error } = await supabase.from("peti").select("*");
+    if (error) {
+      throw new Error(`${error.message}: ${error.details}`);
+    }
+    return data;
+  });
 
-const Produk = ({ data, error }) => {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <main className="max-w-6xl mx-auto my-16 lg:my-24 px-4 md:px-10 mb-20">
       <div className="text-center max-w-md mx-auto my-8 lg:my-12">

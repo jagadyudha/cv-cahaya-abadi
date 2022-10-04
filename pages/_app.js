@@ -9,6 +9,10 @@ import { useRouter } from "next/router";
 import nprogress from "nprogress";
 import "../styles/nprogress.css";
 import Router from "next/router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   Router.events.on("routeChangeStart", nprogress.start);
@@ -23,16 +27,18 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <AuthProvider>
-        <Private protectedRoutes={["/pesan/[slug]"]}>
-          {!isSsr && <Toaster />}
-          <div key={router.pathname}>
-            <Navbar />
-            <Component {...pageProps} />
-            <Footer />
-          </div>
-        </Private>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Private protectedRoutes={["/pesan/[slug]", "/status"]}>
+            {!isSsr && <Toaster />}
+            <div key={router.pathname}>
+              <Navbar />
+              <Component {...pageProps} />
+              <Footer />
+            </div>
+          </Private>
+        </AuthProvider>
+      </QueryClientProvider>
     </>
   );
 }
