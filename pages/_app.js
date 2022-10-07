@@ -11,6 +11,7 @@ import "../styles/nprogress.css";
 import Router from "next/router";
 import { DefaultSeo } from "next-seo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -59,11 +60,20 @@ function MyApp({ Component, pageProps, ...appProps }) {
         <AuthProvider>
           <Private protectedRoutes={["/pesan/[slug]", "/status"]}>
             {!isSsr && <Toaster />}
-            <div key={router.pathname}>
+            <motion.div
+              initial="pageInitial"
+              animate="pageAnimate"
+              variants={{
+                pageInitial: { opacity: 0 },
+                pageAnimate: { opacity: 1 },
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut", bounce: 0.2 }}
+              key={router.pathname}
+            >
               <Navbar />
               <Component {...pageProps} />
               <Footer />
-            </div>
+            </motion.div>
           </Private>
         </AuthProvider>
       </QueryClientProvider>
