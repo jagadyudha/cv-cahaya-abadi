@@ -4,7 +4,9 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/auth";
+import { DashboardAuthProvider } from "@/context/dashboardAuth";
 import Private from "@/components/private";
+import DashboardPrivate from "@/components/dashboardPrivate";
 import { useRouter } from "next/router";
 import nprogress from "nprogress";
 import "../styles/nprogress.css";
@@ -12,6 +14,7 @@ import Router from "next/router";
 import { DefaultSeo } from "next-seo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import DashboardDrawer from "@/components/dashboardDrawer";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -27,6 +30,23 @@ function MyApp({ Component, pageProps, ...appProps }) {
     setIsSsr(false);
   }, []);
 
+  // bagian dashboard untuk admin
+  if (appProps.router.asPath.startsWith("/dashboard")) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <DashboardAuthProvider>
+          <DashboardPrivate>
+            <DashboardDrawer>
+              {!isSsr && <Toaster />}
+              <Component {...pageProps} />
+            </DashboardDrawer>
+          </DashboardPrivate>
+        </DashboardAuthProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // bagian user
   return (
     <>
       <DefaultSeo
