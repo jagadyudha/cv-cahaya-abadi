@@ -11,9 +11,6 @@ const DashboardPrivate = ({ children }) => {
       router.push("/dashboard");
     }
 
-    if (!authLoading && role) {
-      router.push("/dashboard/beranda");
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [admin, authLoading, role]);
 
