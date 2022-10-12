@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { HiMenuAlt1 } from "react-icons/hi";
-import { useAuth } from "@/context/dashboardAuth";
 import { useRouter } from "next/router";
 
 const DashboardDrawer = ({ children }) => {
@@ -36,7 +35,9 @@ const DashboardDrawer = ({ children }) => {
           </Link>
           <div>
             <li>
-              <a>Beranda</a>
+              <Link href="/dashboard/beranda">
+                <a>Beranda</a>
+              </Link>
             </li>
             <li>
               <a>Transaksi Berlangsung</a>
@@ -45,7 +46,9 @@ const DashboardDrawer = ({ children }) => {
               <a>Transaksi Berhasil</a>
             </li>
             <li>
-              <a>Data Produk</a>
+              <Link href="/dashboard/produk">
+                <a>Data Produk</a>
+              </Link>
             </li>
           </div>
         </ul>

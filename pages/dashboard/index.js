@@ -4,9 +4,11 @@ import { useForm, Controller } from "react-hook-form";
 import TextInput from "@/components/textInput";
 import { useAuth } from "@/context/dashboardAuth";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Home = () => {
-  const { admin, role } = useAuth();
+  const { role, authLoading } = useAuth();
+  const router = useRouter();
 
   // react hooks form
   const {
@@ -29,6 +31,11 @@ const Home = () => {
       toast.error(error.error_description || error.message);
     }
   };
+
+  if (!authLoading && role) {
+    router.push("/dashboard/beranda");
+  }
+
   return (
     <main className="w-full h-screen flex justify-center items-center bg-gray-100">
       <div className="bg-white max-w-lg w-full p-10 m-5 rounded-md">

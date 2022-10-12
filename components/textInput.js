@@ -9,8 +9,8 @@ const TextInput = ({ title, ...props }) => {
         </span>
       )}
       <input
-        className="p-4 rounded-lg w-full border focus:border-primary focus:ring-0 border-gray-200"
         {...props}
+        className="p-4 rounded-lg w-full border focus:border-primary focus:ring-0 border-gray-200"
       />
     </div>
   );

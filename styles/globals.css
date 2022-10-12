@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-scroll::-webkit-scrollbar {
+  width: 14px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  height: 56px;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: #888;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -14,7 +34,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #F42E37;
+  background: #f42e37;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 .lds-ellipsis div:nth-child(1) {
