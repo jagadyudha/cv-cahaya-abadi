@@ -57,26 +57,32 @@ const ProdukDetail = ({ data }) => {
             />
           </div>
 
-          <div className="space-y-2 mb-5 max-w-xl">
-            <h1 className="font-bold mt-5 lg:mt-0 text-xl lg:text-2xl">
-              {data.nama}
-            </h1>
-            <span className="block font-bold text-primary text-xl">
-              Rp. {data.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-            </span>
-            <p className=" whitespace-pre-line">{data.deskripsi}</p>
+          <div className="space-y-2 mb-5 max-w-xl flex flex-col justify-between">
+            <div>
+              <h1 className="font-bold mt-5 lg:mt-0 text-xl lg:text-2xl">
+                {data.nama}
+              </h1>
+              <span className="block font-bold text-primary text-xl my-4">
+                Rp. {data.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              </span>
+              <p className=" whitespace-pre-line">{data.deskripsi}</p>
+            </div>
             <div className="lg:space-x-2 space-y-2 lg:space-y-0 py-5 lg:flex">
-              <Link href={`/pesan/${data.slug}`}>
-                <button className="btn btn-lg w-full lg:w-1/2 btn-primary text-white">
-                  Pesan Peti
+              {!router.asPath.endsWith("/jasa-ambulance-saja") && (
+                <Link href={`/pesan/${data.slug}`}>
+                  <button className="btn btn-lg w-full lg:w-1/2 btn-primary text-white">
+                    Pesan Peti
+                  </button>
+                </Link>
+              )}
+              <Link href={"https://wa.me/628121764637?text="}>
+                <button
+                  //   onClick={registerToggle}
+                  className="btn btn-lg w-full lg:w-1/2 btn-outline btn-primary text-white"
+                >
+                  Whatsapp
                 </button>
               </Link>
-              <button
-                //   onClick={registerToggle}
-                className="btn btn-lg w-full lg:w-1/2 btn-outline btn-primary text-white"
-              >
-                Whatsapp
-              </button>
             </div>
           </div>
         </div>

@@ -6,6 +6,8 @@ const DashboardPrivate = ({ children }) => {
   const router = useRouter();
   const { admin, role, loading: authLoading } = useAuth();
 
+  console.log(authLoading);
+
   React.useEffect(() => {
     if (!authLoading && !role) {
       router.push("/dashboard");

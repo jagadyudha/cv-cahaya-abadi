@@ -8,7 +8,6 @@ const AuthContext = createContext(null);
 export const DashboardAuthProvider = ({ children }) => {
   // create state values for user data and loading
   const [admin, setAdmin] = useState(null);
-  const [pesanan, setPesanan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
 
@@ -47,6 +46,7 @@ export const DashboardAuthProvider = ({ children }) => {
       }
     };
     getAdmin();
+    setLoading(false);
   }, [admin]);
 
   // create signUp, signIn, signOut functions

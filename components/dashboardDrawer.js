@@ -40,10 +40,14 @@ const DashboardDrawer = ({ children }) => {
               </Link>
             </li>
             <li>
-              <a>Transaksi Berlangsung</a>
+              <Link href="/dashboard/menunggu">
+                <a>Transaksi Menunggu</a>
+              </Link>
             </li>
             <li>
-              <a>Transaksi Berhasil</a>
+              <Link href="/dashboard/berhasil">
+                <a>Transaksi Berhasil</a>
+              </Link>
             </li>
             <li>
               <Link href="/dashboard/produk">

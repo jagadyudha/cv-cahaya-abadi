@@ -18,7 +18,11 @@ const Home = () => {
     isError,
     data: featuredData,
   } = useQuery(["featured"], async () => {
-    const { data, error } = await supabase.from("peti").select("*");
+    const { data, error } = await supabase
+      .from("peti")
+      .select("*")
+      .order("id_peti")
+      .limit("3");
     if (error) {
       throw new Error(`${error.message}: ${error.details}`);
     }

@@ -26,7 +26,7 @@ const Kontak = () => {
         <div className="md:aspect-[16/9] aspect-square">
           <iframe
             className="rounded-lg"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.8388920570824!2d112.72085321532921!3d-7.483035575865309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x452996006f3c773b!2zN8KwMjgnNTkuMCJTIDExMsKwNDMnMjMuMCJF!5e0!3m2!1sid!2sid!4v1645926894010!5m2!1sid!2sid"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d506413.6767692619!2d112.722825!3d-7.425703!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1b450e0bf4ec73ed!2sAmbulance%20Cahaya%20Abadi!5e0!3m2!1sen!2sid!4v1665658720763!5m2!1sen!2sid"
             width="100%"
             height="100%"
             loading="lazy"

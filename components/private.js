@@ -9,7 +9,7 @@ const Private = ({ children, protectedRoutes }) => {
 
   React.useEffect(() => {
     if (!authLoading && !user && protectedPath) {
-      router.push("/auth?type=signin");
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, authLoading, protectedPath]);

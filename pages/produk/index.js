@@ -9,7 +9,10 @@ import { NextSeo } from "next-seo";
 const Produk = () => {
   // mengambil data dari database
   const { isLoading, isError, data } = useQuery(["produk"], async () => {
-    const { data, error } = await supabase.from("peti").select("*");
+    const { data, error } = await supabase
+      .from("peti")
+      .select("*")
+      .order("id_peti", { ascending: false });
     if (error) {
       throw new Error(`${error.message}: ${error.details}`);
     }

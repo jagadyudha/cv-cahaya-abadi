@@ -30,7 +30,12 @@ const Produk = () => {
     async (data) => {
       const { error } = await supabase.from("peti").insert({
         nama: data.nama,
-        slug: data.nama.replace(/^\s+|\s+$/g, "").toLowerCase(),
+        slug: data.nama
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, ""),
         harga: data.harga,
         deskripsi: data.deskripsi,
         last_name: data.last_name,
@@ -82,7 +87,12 @@ const Produk = () => {
         .from("peti")
         .update({
           nama: data.nama,
-          slug: data.nama.replace(/^\s+|\s+$/g, "").toLowerCase(),
+          slug: data.nama
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/[\s_-]+/g, "-")
+            .replace(/^-+|-+$/g, ""),
           harga: data.harga,
           deskripsi: data.deskripsi,
           last_name: data.last_name,
@@ -527,7 +537,7 @@ const Produk = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-5 md:my-10 gap-3 md:gap-5">
           {data.map((item) => (
-            <div className="border group border-opacity-20 border-black  rounded-md flex flex-col items-center">
+            <div className="border group border-opacity-20 border-black  rounded-md flex flex-col items-center bg-white">
               <div className="relative w-full h-64 ">
                 <Image
                   className="rounded-t-md"
