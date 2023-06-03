@@ -1,5 +1,5 @@
-import Image from "@/components/image";
-import { supabase } from "@/lib/database";
+import Image from '@/components/image';
+import { supabase } from '@/lib/database';
 import {
   GiAmbulance,
   GiMilitaryAmbulance,
@@ -7,9 +7,9 @@ import {
   GiShower,
   GiNurseMale,
   GiCoffin,
-} from "react-icons/gi";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
+} from 'react-icons/gi';
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 
 const Home = () => {
   // mengambil data dari database
@@ -17,12 +17,12 @@ const Home = () => {
     isLoading,
     isError,
     data: featuredData,
-  } = useQuery(["featured"], async () => {
+  } = useQuery(['featured'], async () => {
     const { data, error } = await supabase
-      .from("peti")
-      .select("*")
-      .order("id_peti")
-      .limit("3");
+      .from('peti')
+      .select('*')
+      .order('id_peti')
+      .limit('3');
     if (error) {
       throw new Error(`${error.message}: ${error.details}`);
     }
@@ -35,9 +35,9 @@ const Home = () => {
       <section>
         <div className="absolute w-full h-[92vh]">
           <Image
-            className={"rounded-none"}
-            src={"/assets/images/hero.png"}
-            layout={"fill"}
+            className={'rounded-none'}
+            src={'/assets/images/hero.png'}
+            layout={'fill'}
             objectFit="cover"
           />
         </div>
@@ -47,9 +47,11 @@ const Home = () => {
               Menyediakan Jasa Persewaan Ambulance dan Peti Mati Dengan Harga
               Terjangkau
             </h1>
-            <button className="my-10 btn btn-outline text-white hover:bg-primary hover:border-primary">
-              Lihat Produk
-            </button>
+            <Link href="/produk">
+              <button className="my-10 btn btn-outline text-white hover:bg-primary hover:border-primary">
+                Lihat Produk
+              </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -102,16 +104,16 @@ const Home = () => {
                   <Image
                     className="rounded-t-md"
                     src={item.image}
-                    layout={"fill"}
-                    objectFit={"cover"}
+                    layout={'fill'}
+                    objectFit={'cover'}
                   />
                 </div>
                 <div className="mx-5 space-y-2 mb-5">
                   <h3 className="font-bold text-xl mt-5">{item.nama}</h3>
                   <span className="block font-bold text-primary text-xl">
-                    Rp. {item.harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                    Rp. {item.harga.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                   </span>
-                  <p>{item.deskripsi.split(".")[0]}.</p>
+                  <p>{item.deskripsi.split('.')[0]}.</p>
                 </div>
               </a>
             </Link>
@@ -126,33 +128,33 @@ export default Home;
 
 const layanan = [
   {
-    name: "Ambulance Dalam Kota",
-    desc: "Menyediakan jasa pengantaran jenazah dalam kota",
+    name: 'Ambulance Dalam Kota',
+    desc: 'Menyediakan jasa pengantaran jenazah dalam kota',
     icon: <GiAmbulance />,
   },
   {
-    name: "Ambulance Luar Kota",
-    desc: "Menyediakan jasa pengantaran jenazah Luar Kota",
+    name: 'Ambulance Luar Kota',
+    desc: 'Menyediakan jasa pengantaran jenazah Luar Kota',
     icon: <GiMilitaryAmbulance />,
   },
   {
-    name: "Ambulance Luar Pulau",
-    desc: "Menyediakan jasa pengantaran jenazah hingga ke luar pulau (cargo)",
+    name: 'Ambulance Luar Pulau',
+    desc: 'Menyediakan jasa pengantaran jenazah hingga ke luar pulau (cargo)',
     icon: <GiCargoShip />,
   },
   {
-    name: "Pemandian Jenazah",
-    desc: "Menyediakan jasa pemandian jenazah",
+    name: 'Pemandian Jenazah',
+    desc: 'Menyediakan jasa pemandian jenazah',
     icon: <GiShower />,
   },
   {
-    name: "Perawatan Jenazah",
-    desc: "Jenazah dapat kami rawat sesuai permintaan keluarga",
+    name: 'Perawatan Jenazah',
+    desc: 'Jenazah dapat kami rawat sesuai permintaan keluarga',
     icon: <GiNurseMale />,
   },
   {
-    name: "Penyediaan Peti Mati",
-    desc: "Kami juga menyediakan peti mati untuk jenazah",
+    name: 'Penyediaan Peti Mati',
+    desc: 'Kami juga menyediakan peti mati untuk jenazah',
     icon: <GiCoffin />,
   },
 ];
